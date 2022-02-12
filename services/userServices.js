@@ -44,13 +44,12 @@ const loginUser = async (email, password) => {
 };
 
 // Requisito 3
-const usersAllList = async () => {
-  const usersList = await Users.findAll();
-  return usersList;
-};
+// const usersAllList = async () => {
+//   const usersList = await Users.findAll();
+//   return usersList;
+// };
 
 module.exports = {
   createUser,
   loginUser,
-  usersAllList,
 };
