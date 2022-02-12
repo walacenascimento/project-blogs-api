@@ -42,7 +42,15 @@ const loginUser = async (email, password) => {
  const token = genereteToken(userWithoutPassword);
  return token;
 };
+
+// Requisito 3
+const usersAllList = async () => {
+  const usersList = await Users.findAll();
+  return usersList;
+};
+
 module.exports = {
   createUser,
   loginUser,
+  usersAllList,
 };
