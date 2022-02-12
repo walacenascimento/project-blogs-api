@@ -1,5 +1,8 @@
 const express = require('express');
-const { userController } = require('./controllers/userController');
+const {
+  createNewUser,
+  userLogin,
+} = require('./controllers/userController');
 const auth = require('./middlewares/auth');
 const { error } = require('./middlewares/errorMiddlewares');
 
@@ -12,8 +15,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-// Req 1 Cria o usuário
-app.post('/user', auth, userController);
+app.post('/user', auth, createNewUser); // Req 1 Cria o usuário
+app.post('/login', auth, userLogin); // Req 2 login de usuário
 
 app.use(error);
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
