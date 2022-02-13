@@ -59,4 +59,6 @@ const userGetById = async (id) => {
   return userFindId;
 };
 
-module.exports = { createUser, loginUser, usersAllList, userGetById };
+module.exports = {
+  createUser, loginUser, usersAllList, userGetById,
+};

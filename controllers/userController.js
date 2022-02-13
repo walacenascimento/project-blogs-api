@@ -44,4 +44,6 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-module.exports = { createNewUser, userLogin, listAllUsers, getUserById };
+module.exports = {
+  createNewUser, userLogin, listAllUsers, getUserById,
+};

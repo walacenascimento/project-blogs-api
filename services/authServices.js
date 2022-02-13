@@ -23,6 +23,5 @@ const verifyToken = (token) => {
 };
 
 module.exports = {
-  genereteToken,
-  verifyToken,
+  genereteToken, verifyToken,
 };

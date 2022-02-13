@@ -35,6 +35,13 @@ const loginSchema = Joi.object({
   image: Joi.string(),
 });
 
+// Requisito 5
+const categorieSchema = Joi.object({
+  name: Joi.string().required().messages({
+    'any.required': '"name" is required',
+  }),
+});
+
 module.exports = {
-  userSchema, loginSchema,
+  userSchema, loginSchema, categorieSchema,
 };

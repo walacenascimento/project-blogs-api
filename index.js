@@ -1,6 +1,11 @@
 const express = require('express');
-const { createNewUser, userLogin, listAllUsers, getUserById,
+const { 
+  createNewUser, userLogin, listAllUsers, getUserById, 
 } = require('./controllers/userController');
+
+const {
+  createCategory,
+} = require('./controllers/categoriesController');
 
 const auth = require('./middlewares/auth');
 const { error } = require('./middlewares/errorMiddlewares');
@@ -18,6 +23,9 @@ app.post('/user', createNewUser); // Req 1 Cria o usuário
 app.post('/login', userLogin); // Req 2 login de usuário
 app.get('/user', auth, listAllUsers); // Req 3 lista todos os usuários
 app.get('/user/:id', auth, getUserById); // Req 4 lita o usuário pelo Id
+
+// Categories
+app.post('/categories', auth, createCategory); // Req 5 cria a categoria 
 
 app.use(error);
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
