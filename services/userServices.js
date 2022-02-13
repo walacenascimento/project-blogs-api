@@ -1,7 +1,7 @@
 const { Users } = require('../models'); // 
 const { userSchema, loginSchema } = require('../schemas/schemasJoi');
 const errorConstructor = require('../utils/errorConstructor');
-const { badRequest, conflict } = require('../utils/statusCode');
+const { badRequest, conflict, notFound } = require('../utils/statusCode');
 const { genereteToken } = require('./authServices');
 
 // Requisito 1
@@ -49,8 +49,14 @@ const usersAllList = async () => {
   return usersList;
 };
 
-module.exports = {
-  createUser,
-  loginUser,
-  usersAllList,
+// Requisito 4
+const userGetById = async (id) => {
+  const userFindId = await Users.findOne({ where: { id } });
+
+  if (!userFindId) {
+    throw errorConstructor(notFound, { message: 'User does not exist' });
+  }
+  return userFindId;
 };
+
+module.exports = { createUser, loginUser, usersAllList, userGetById };
