@@ -1,14 +1,14 @@
 const authServices = require('../services/authServices');
-// const errorConstructor = require('../utils/errorConstructor');
-// const { unauthorized } = require('../utils/statusCode');
+const errorConstructor = require('../utils/errorConstructor');
+const { unauthorized } = require('../utils/statusCode');
  
 module.exports = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    // if (!authorization) throw errorConstructor(unauthorized, { message: 'Token not found' });
+    if (!authorization) throw errorConstructor(unauthorized, { message: 'Token not found' });
 
     const user = authServices.verifyToken(authorization);
-    // if (!user) throw errorConstructor(unauthorized, { message: 'Expired or invalid token' });
+    if (!user) throw errorConstructor(unauthorized, { message: 'Expired or invalid token' });
 
     req.user = user;
 
