@@ -16,7 +16,7 @@ const genereteToken = (data) => jwt.sign({ data }, jwtSecret, jwtConfig);
 const verifyToken = (token) => {
   try {
     const decoded = jwt.verify(token, jwtSecret);
-    return decoded;
+    return decoded.data;
   } catch (error) {
     return null;
   }
