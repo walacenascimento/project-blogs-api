@@ -1,15 +1,15 @@
-// const { blogPostsCategories } = require('../services/postBlogServices');
-const { created, badRequest } = require('../utils/statusCode');
-// const { BlogPosts, Categories, Users} = require('../models');
-const { BlogPosts, Categories } = require('../models');
+const { BlogPosts, Categories, Users } = require('../models');
 const { blogPostSchemas } = require('../schemas/schemasJoi');
+const { created, sucess, badRequest, serverError } = require('../utils/statusCode');
 
+// Req 7
 const verifyCategory = async (category) => {
   const categories = await Categories.findAll({ where: { id: category } });
 
   return categories.length === category.length;
 };
 
+// Req 7
 const blogPosts = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const { id: userId } = req.user;
@@ -29,7 +29,23 @@ const blogPosts = async (req, res) => {
   } catch (err) {
     return res.status(badRequest).json(err);
   }
-}; 
+};
+
+// Req 8
+const findAllPosts = async (_req, res) => {
+  try {
+    const postsFindAll = await BlogPosts.findAll({
+      include: [
+        { model: Categories, as: 'categories' },
+        { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      ],
+    });
+    return res.status(sucess).json(postsFindAll);
+  } catch (error) {
+    return res.status(serverError).json({ message: error.message });
+  }
+};
+
 module.exports = {
-  blogPosts,
+  blogPosts, findAllPosts,
 };
