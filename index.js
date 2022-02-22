@@ -9,7 +9,7 @@ const {
 } = require('./controllers/categoriesController');
 
 const {
-  blogPosts, findAllPosts,
+  createBlogPosts, listBlogPosts, listBlogPostById,
 } = require('./controllers/blogPostController'); // req 7
 
 const auth = require('./middlewares/auth');
@@ -32,8 +32,9 @@ app.get('/user/:id', auth, getUserById); // Req 4 lita o usuário pelo Id
 // Categories
 app.post('/categories', auth, createCategory); // Req 5 cria a categoria
 app.get('/categories', auth, listAllCategories); // Req 6
-app.post('/post', auth, blogPosts); // Req 7
-app.get('/post', auth, findAllPosts); // Req 8
+app.post('/post', auth, createBlogPosts); // Req 7
+app.get('/post', auth, listBlogPosts); // Req 8
+app.get('/post/:id', auth, listBlogPostById); // 9
 
 app.use(error);
 app.listen(3000, () => console.log('ouvindo porta 3000!'));

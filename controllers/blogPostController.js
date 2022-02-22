@@ -1,51 +1,41 @@
-const { BlogPosts, Categories, Users } = require('../models');
-const { blogPostSchemas } = require('../schemas/schemasJoi');
-const { created, sucess, badRequest, serverError } = require('../utils/statusCode');
+const { servicesBlogPosts, servicesPostCategories, servicesPostFindId,
+} = require('../services/postBlogServices');
+const { created, sucess } = require('../utils/statusCode');
 
-// Req 7
-const verifyCategory = async (category) => {
-  const categories = await Categories.findAll({ where: { id: category } });
-
-  return categories.length === category.length;
-};
-
-// Req 7
-const blogPosts = async (req, res) => {
-  const { title, content, categoryIds } = req.body;
-  const { id: userId } = req.user;
-
+// Req 7 
+const createBlogPosts = async (req, res, next) => {
   try {
-    const { error } = blogPostSchemas(title, content, categoryIds);
-    if (error) return res.status(badRequest).json({ message: error.message });
-    const verifyCategorie = await verifyCategory(categoryIds);
+    const { title, content, categoryIds } = req.body;
+    const { id: userId } = req.user;
 
-    if (verifyCategorie === false) {
-      return res.status(badRequest).json({ message: '"categoryIds" not found' }); 
-    }
-
-  const createBlogPost = await BlogPosts.create({ title, content, userId });
-
-    return res.status(created).json(createBlogPost);
+    const newBlogPost = await servicesBlogPosts(title, content, categoryIds, userId);
+    return res.status(created).json(newBlogPost);
   } catch (err) {
-    return res.status(badRequest).json(err);
+      next(err);
+  }
+}; 
+
+// Req 8 
+const listBlogPosts = async (_req, res, next) => {
+  try {
+    const findAllPosts = await servicesPostCategories();
+    return res.status(sucess).json(findAllPosts);
+  } catch (error) {
+    next(error);
   }
 };
 
-// Req 8
-const findAllPosts = async (_req, res) => {
+// Req 9
+const listBlogPostById = async (req, res, next) => {
   try {
-    const postsFindAll = await BlogPosts.findAll({
-      include: [
-        { model: Categories, as: 'categories' },
-        { model: Users, as: 'user', attributes: { exclude: ['password'] } },
-      ],
-    });
-    return res.status(sucess).json(postsFindAll);
+    const { id } = req.params;
+    const blogPostFindId = await servicesPostFindId(id);
+    return res.status(sucess).json(blogPostFindId);
   } catch (error) {
-    return res.status(serverError).json({ message: error.message });
+    next(error);
   }
 };
 
 module.exports = {
-  blogPosts, findAllPosts,
+  createBlogPosts, listBlogPosts, listBlogPostById,
 };
