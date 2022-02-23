@@ -1,4 +1,6 @@
-const { createUser, loginUser, usersAllList, userGetById } = require('../services/userServices');
+const {
+  createUser, loginUser, usersAllList, userGetById,
+} = require('../services/userServices');
 const { created, sucess } = require('../utils/statusCode');
 
 // Req 1 Cria o usuário

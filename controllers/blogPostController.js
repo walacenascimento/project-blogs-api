@@ -1,6 +1,7 @@
-const { servicesBlogPosts, servicesPostCategories, servicesPostFindId, servicesUpdatePost,
+const { servicesBlogPosts, servicesPostCategories,
+  servicesPostFindId, servicesUpdatePost, deletePostId,
 } = require('../services/postBlogServices');
-const { created, sucess } = require('../utils/statusCode');
+const { created, sucess, noContent } = require('../utils/statusCode');
 
 // Req 7 
 const createBlogPosts = async (req, res, next) => {
@@ -51,6 +52,23 @@ const updateBlogPost = async (req, res, next) => {
   }
 };
 
+// Req 11
+const deletePostById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { email } = req.user;
+
+    await deletePostId(id, email);
+    return res.status(noContent).json({});
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  createBlogPosts, listBlogPosts, listBlogPostById, updateBlogPost,
+  createBlogPosts,
+  listBlogPosts,
+  listBlogPostById,
+  updateBlogPost,
+  deletePostById,
 };

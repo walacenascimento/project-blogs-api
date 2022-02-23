@@ -83,6 +83,31 @@ const servicesUpdatePost = async (data) => {
   return post;
 };
 
+// Req 11
+const deletePostId = async (id, email) => {
+  const findPost = await BlogPosts.findByPk(id);
+  if (!findPost) throw errorConstructor(notFound, { message: 'Post does not exist' });
+
+  const user = await Users.findOne({ where: { email } });
+
+  const { dataValues: { userId: UserIdInPost } } = findPost;
+  const { dataValues: { id: UserIdInUser } } = user;
+
+  if (UserIdInPost !== UserIdInUser) {
+    throw errorConstructor(unauthorized, { message: 'Unauthorized user' });
+  }
+
+  await BlogPosts.destroy({
+    where: { id },
+  });
+
+  return null;
+};
+
 module.exports = {
-  servicesBlogPosts, servicesPostCategories, servicesPostFindId, servicesUpdatePost,
+  servicesBlogPosts,
+  servicesPostCategories,
+  servicesPostFindId,
+  servicesUpdatePost,
+  deletePostId,
 }; 
