@@ -61,6 +61,16 @@ const blogPostSchemas = (title, content, categoryIds) => {
   return postSchema.validate({ title, content, categoryIds });
 };
 
+// Req 10
+const updateblogPostSchemas = Joi.object({
+  title: Joi.string().required().messages({
+    'any.required': '"title" is required',
+  }),
+    content: Joi.string().required().messages({
+    'any.required': '"content" is required',
+  }),
+});
+
 module.exports = {
-  userSchema, loginSchema, categorieSchema, blogPostSchemas,
+  userSchema, loginSchema, categorieSchema, blogPostSchemas, updateblogPostSchemas,
 };

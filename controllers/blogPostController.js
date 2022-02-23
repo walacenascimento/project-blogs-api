@@ -1,4 +1,4 @@
-const { servicesBlogPosts, servicesPostCategories, servicesPostFindId,
+const { servicesBlogPosts, servicesPostCategories, servicesPostFindId, servicesUpdatePost,
 } = require('../services/postBlogServices');
 const { created, sucess } = require('../utils/statusCode');
 
@@ -36,6 +36,21 @@ const listBlogPostById = async (req, res, next) => {
   }
 };
 
+// Req 10
+const updateBlogPost = async (req, res, next) => {
+  try {
+    const { title, content, categoryIds } = req.body;
+    const { id } = req.params;
+    const { email } = req.user;
+
+    const data = { id, title, content, categoryIds, email };
+    const post = await servicesUpdatePost(data);
+    return res.status(sucess).json(post);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-  createBlogPosts, listBlogPosts, listBlogPostById,
+  createBlogPosts, listBlogPosts, listBlogPostById, updateBlogPost,
 };

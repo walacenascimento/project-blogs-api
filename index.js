@@ -9,8 +9,8 @@ const {
 } = require('./controllers/categoriesController');
 
 const {
-  createBlogPosts, listBlogPosts, listBlogPostById,
-} = require('./controllers/blogPostController'); // req 7
+  createBlogPosts, listBlogPosts, listBlogPostById, updateBlogPost,
+} = require('./controllers/blogPostController'); // req 7, 8, 9, 10
 
 const auth = require('./middlewares/auth');
 const { error } = require('./middlewares/errorMiddlewares');
@@ -34,7 +34,8 @@ app.post('/categories', auth, createCategory); // Req 5 cria a categoria
 app.get('/categories', auth, listAllCategories); // Req 6
 app.post('/post', auth, createBlogPosts); // Req 7
 app.get('/post', auth, listBlogPosts); // Req 8
-app.get('/post/:id', auth, listBlogPostById); // 9
+app.get('/post/:id', auth, listBlogPostById); // Req 9
+app.put('/post/:id', auth, updateBlogPost); // Req 10
 
 app.use(error);
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
