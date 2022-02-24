@@ -59,9 +59,19 @@ const userGetById = async (id) => {
   return userFindId;
 };
 
+// Req 12
+const servicesDeleteUser = async (email) => {
+  await Users.destroy({
+    where: { email },
+  });
+
+  return null;
+};
+
 module.exports = {
   createUser,
   loginUser,
   usersAllList,
   userGetById,
+  servicesDeleteUser,
 };

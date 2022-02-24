@@ -1,7 +1,7 @@
 const {
-  createUser, loginUser, usersAllList, userGetById,
+  createUser, loginUser, usersAllList, userGetById, servicesDeleteUser,
 } = require('../services/userServices');
-const { created, sucess } = require('../utils/statusCode');
+const { created, sucess, noContent } = require('../utils/statusCode');
 
 // Req 1 Cria o usuário
 const createNewUser = async (req, res, next) => {
@@ -46,6 +46,18 @@ const getUserById = async (req, res, next) => {
   }
 };
 
+// Req 12 
+const deleteUser = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+
+    await servicesDeleteUser(email);
+    return res.status(noContent).json({});
+  } catch (error) {
+    next(error);
+}
+};
+
 module.exports = {
-  createNewUser, userLogin, listAllUsers, getUserById,
+  createNewUser, userLogin, listAllUsers, getUserById, deleteUser,
 };

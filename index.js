@@ -3,7 +3,7 @@ const express = require('express');
 const { 
   createNewUser, userLogin, listAllUsers, getUserById,
   
-  // deleteUser, // req 12
+  deleteUser, // req 12
 } = require('./controllers/userController');
 
 const {
@@ -32,7 +32,7 @@ app.post('/login', userLogin); // Req 2 login de usuário
 app.get('/user', auth, listAllUsers); // Req 3 lista todos os usuários
 app.get('/user/:id', auth, getUserById); // Req 4 lita o usuário pelo Id
 
-// app.delete('/user/me', auth, deleteUser); // Req 12
+app.delete('/user/me', auth, deleteUser); // Req 12
 
 // Categories e  BlogPosts
 app.post('/categories', auth, createCategory); // Req 5 cria a categoria
